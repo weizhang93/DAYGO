@@ -236,11 +236,10 @@ public class RecyclerFragmentFactory extends Fragment implements View.OnClickLis
                 note_list.addAll(DaoUtils.getNote_list());
                 break;
         }
-        dealDataInRecyclerView(article_list, girl_list, note_list);
+        dealDataInRecyclerView(article_list, girl_list);
     }
 
-    private void dealDataInRecyclerView(List<Result> article_list, List<Result> results,
-                                        List<Result> note_list) {
+    private void dealDataInRecyclerView(List<Result> article_list, List<Result> results) {
         switch (mTitle) {
             case "资料":
                 articleAdapter.getResults().addAll(article_list);
@@ -313,36 +312,34 @@ public class RecyclerFragmentFactory extends Fragment implements View.OnClickLis
                                 .LENGTH_SHORT)
                                 .show();
                     }
-
                     @Override
                     public void onNext(DataResult dataResult) {
                         if (dataResult.isError() == true) {
                             Toast.makeText(getActivity(), "啊擦，服务器出问题啦", Toast.LENGTH_SHORT).show();
                         } else {
-                            if(mTitle == "录制"){
-                                girl_list = dataResult.getResults();
-                            }
-                            if (isTop == true) {
-                                saveDataInDb(dataResult.getResults());
+                            //yepyepeyepyepyepyepyepyepyep!!!!!!!!!!!!!!!
+                            if(isTop){
+                                if(mType=="福利"){
+                                    girl_list =dataResult.getResults();
+                                    saveGirlInDb(girl_list);
+                                }else{
+                                    article_list =dataResult.getResults();
+                                    saveDataInDb(article_list);
+                                }
                                 clearAdapterResult();
                             }
-                            dealDataInRecyclerView(dataResult.getResults(), dataResult.getResults(), note_list);
+                            dealDataInRecyclerView(dataResult.getResults(),dataResult.getResults());
                         }
                     }
                 });
     }
 
     private void saveDataInDb(List<Result> results) {
-        switch (mTitle) {
-            case "资料":
-                DaoUtils.addArticle_list(results);
-            case "录制":
-                DaoUtils.addGirl_list(results);
-                break;
-            case "记录":
-                //DaoUtils.addNote_list(results);
-                break;
-        }
+        DaoUtils.addArticle_list(results);
+    }
+
+    private void saveGirlInDb(List<Result> results) {
+        DaoUtils.addGirl_list(results);
     }
 
     @Override
