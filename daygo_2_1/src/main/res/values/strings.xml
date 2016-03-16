@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DayGO_2</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_web">WebActivity</string>
+    <string name="share_text">分享</string>
+    <string name="share_image">分享图片</string>
+    <string name="share">分享</string>
+    <string name="refresh">刷新</string>
+    <string name="copy_uri">复制链接</string>
+    <string name="open_in_browser">在浏览器中打开</string>
+    <string name="copy_success">复制成功！</string>
+    <string name="open_fail">打开失败，没有可打开的应用！！！</string>
+    <string name="title_activity_image">ImageActivity</string>
+    <string name="beautiful_girl">美图</string>
+    <string name="title_activity_note">NoteActivity</string>
+    <string name="sure_to_save">是否保存？</string>
+    <string name="sure">当然！</string>
+    <string name="no">不需要</string>
+</resources>
