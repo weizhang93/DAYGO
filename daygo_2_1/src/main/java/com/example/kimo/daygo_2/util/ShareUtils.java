@@ -49,4 +49,12 @@ public class ShareUtils {
         intent.putExtra(Intent.EXTRA_STREAM, shareUri);
         context.startActivity(Intent.createChooser(intent,context.getString(R.string.share_image)));
     }
+
+    public static void shareVideo(Context context,Uri uri){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("video/*");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(Intent.createChooser(intent,"分享视频"));
+    }
 }

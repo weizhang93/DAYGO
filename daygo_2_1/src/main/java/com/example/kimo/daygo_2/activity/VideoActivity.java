@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class VideoActivity extends AppCompatActivity {
 
     private MovieRecorderView mRecorderView;//
     private Button mShootBtn;
+    private Button mChangeBtn;
     private boolean isFinish = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,9 @@ public class VideoActivity extends AppCompatActivity {
 
     private void initView() {
         mRecorderView = (MovieRecorderView) findViewById(R.id.movieRecorderView);
+
         mShootBtn = (Button) findViewById(R.id.shoot_button);
+        mChangeBtn = (Button) findViewById(R.id.change_camera);
 
         mShootBtn.setOnTouchListener(new View.OnTouchListener() {
 
@@ -69,12 +73,31 @@ public class VideoActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        mChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("前".equals(mChangeBtn.getText().toString())) {
+                    mChangeBtn.setText("后");
+                    mRecorderView.setmCamDir(0);
+                } else {
+                    mChangeBtn.setText("前");
+                    mRecorderView.setmCamDir(1);
+                }
+            }
+        });
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         isFinish = false;
+        mRecorderView.stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         mRecorderView.stop();
     }
 

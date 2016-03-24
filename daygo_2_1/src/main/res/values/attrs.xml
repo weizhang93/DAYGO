@@ -11,6 +11,10 @@
         <attr name="width" format="integer"/>
         <!-- 视频分辨率高度 -->
         <attr name="height"/>
+        <attr name="cam_direction" format="enum">
+            <enum name="front" value="0"/>
+            <enum name="back" value="1"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">

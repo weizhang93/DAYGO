@@ -26,7 +26,7 @@ import java.util.TimerTask;
  * Created by Administrator on 2015/12/25 0025.
  * 自定义小视频控件
  */
-public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnErrorListener{
+public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnErrorListener {
 
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -40,6 +40,7 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
     private int mWidth;// 视频分辨率宽度
     private int mHeight;// 视频分辨率高度
     private boolean isOpenCamera;// 是否一开始就打开摄像头
+    private int mCamDir;//相机方向
     private int mRecordMaxTime;// 一次拍摄最长时间
     private int mTimeCount;// 时间计数
     private File mVecordFile = null;// 文件
@@ -52,14 +53,30 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
         this(context, attrs, 0);
     }
 
+    public int getmCamDir() {
+        return mCamDir;
+    }
+
+    public void setmCamDir(int mCamDir) {
+        this.mCamDir = mCamDir;
+        try {
+            initCamera();//刷新相机
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        invalidate();
+        requestLayout();
+    }
+
     public MovieRecorderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MovieRecorderView, defStyleAttr, 0);
-        mWidth = a.getInteger(R.styleable.MovieRecorderView_width, 320);// 默认320
-        mHeight = a.getInteger(R.styleable.MovieRecorderView_height, 240);// 默认240
+        mWidth = a.getInteger(R.styleable.MovieRecorderView_width, 1280);// 默认320
+        mHeight = a.getInteger(R.styleable.MovieRecorderView_height, 960);// 默认240s
+        mCamDir = a.getInt(R.styleable.MovieRecorderView_cam_direction,0);
 
         isOpenCamera = a.getBoolean(R.styleable.MovieRecorderView_is_open_camera, true);// 默认打开
-        mRecordMaxTime = a.getInteger(R.styleable.MovieRecorderView_record_max_time, 10);// 默认为10
+        mRecordMaxTime = a.getInteger(R.styleable.MovieRecorderView_record_max_time, 30);// 默认为10
 
         LayoutInflater.from(context).inflate(R.layout.movie_recorder_view, this);
         mSurfaceView = (SurfaceView) findViewById(R.id.surfaceview);
@@ -87,9 +104,7 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
     }
 
     /**
-     *
      * @author liuyinjun
-     *
      * @date 2015-2-5
      */
     private class CustomCallBack implements Callback {
@@ -122,16 +137,39 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
     /**
      * 初始化摄像头
      *
-     * @author liuyinjun
-     * @date 2015-2-5
      * @throws IOException
+     * @author weiZhang
+     * @date 2016-3-24
+     * 选择前后摄像头，默认为前
      */
     private void initCamera() throws IOException {
         if (mCamera != null) {
             freeCameraResource();
         }
         try {
-            mCamera = Camera.open();
+            int cameraCount = 0;
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            cameraCount = Camera.getNumberOfCameras(); // get cameras number
+            switch (mCamDir){
+                case 0:
+                    for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+                        Camera.getCameraInfo(camIdx, cameraInfo); // get camerainfo
+                        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) { //
+                            // 代表摄像头的方位，目前有定义值两个分别为CAMERA_FACING_FRONT前置和CAMERA_FACING_BACK后置
+                            mCamera = Camera.open(camIdx);
+                        }
+                    }
+                    break;
+                case 1:
+                    for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+                        Camera.getCameraInfo(camIdx, cameraInfo); // get camerainfo
+                        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) { //
+                            // 代表摄像头的方位，目前有定义值两个分别为CAMERA_FACING_FRONT前置和CAMERA_FACING_BACK后置
+                            mCamera = Camera.open(camIdx);
+                        }
+                    }
+                    break;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             freeCameraResource();
@@ -145,6 +183,7 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
         mCamera.startPreview();
         mCamera.unlock();
     }
+
     /**
      * 释放摄像头资源
      *
@@ -175,9 +214,12 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
         }
     }
 
+    /**
+     * 创建一个存放视频的目录
+     */
     private void createRecordDir() {
         File sampleDir = new File(Environment.getExternalStorageDirectory() + File.separator +
-                "DAYGO/video");
+                "DAYGO_2/video");
         if (!sampleDir.exists()) {
             sampleDir.mkdirs();
         }
@@ -185,16 +227,16 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
         // 创建文件
         String date = Utils.dataFormat("yy_MM_dd_ss");//1.5 yy_MM_dd
         //mVecordFile = File.createTempFile("DG_" +date, ".mp4", vecordDir);//mp4格式
-        mVecordFile = new File(vecordDir,"DG_" +date+".mp4");
-        Log.d("TAG",mVecordFile.getAbsolutePath());
+        mVecordFile = new File(vecordDir, "DG_" + date + ".mp4");
+        Log.d("TAG", mVecordFile.getAbsolutePath());
     }
 
     /**
      * 初始化
      *
+     * @throws IOException
      * @author liuyinjun
      * @date 2015-2-5
-     * @throws IOException
      */
     private void initRecord() throws IOException {
         mMediaRecorder = new MediaRecorder();
@@ -209,7 +251,7 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);// 音频格式
         mMediaRecorder.setVideoSize(mWidth, mHeight);// 设置分辨率：
         // mMediaRecorder.setVideoFrameRate(16);// 这个我把它去掉了，感觉没什么用
-        mMediaRecorder.setVideoEncodingBitRate(1 * 1024 * 512);// 设置帧频率，然后就清晰了
+        mMediaRecorder.setVideoEncodingBitRate(2 * 1024 * 512);// 设置帧频率，然后就清晰了
         mMediaRecorder.setOrientationHint(90);// 输出旋转90度，保持竖屏录制
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);// 视频录制格式
         // mediaRecorder.setMaxDuration(Constant.MAXVEDIOTIME * 1000);
@@ -229,12 +271,10 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
     /**
      * 开始录制视频
      *
+     * @param
+     * @param onRecordFinishListener 达到指定时间之后回调接口
      * @author liuyinjun
      * @date 2015-2-5
-     * @param
-     *
-     * @param onRecordFinishListener
-     *            达到指定时间之后回调接口
      */
     public void record(final OnRecordFinishListener onRecordFinishListener) {
         this.mOnRecordFinishListener = onRecordFinishListener;
@@ -325,6 +365,7 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
     public int getTimeCount() {
         return mTimeCount;
     }
+
     /**
      * @return the mVecordFile
      */
@@ -336,7 +377,6 @@ public class MovieRecorderView extends LinearLayout implements MediaRecorder.OnE
      * 录制完成回调接口
      *
      * @author liuyinjun
-     *
      * @date 2015-2-5
      */
     public interface OnRecordFinishListener {

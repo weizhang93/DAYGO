@@ -11,15 +11,16 @@ import retrofit.RxJavaCallAdapterFactory;
  * Created by Administrator on 2016/3/8 0008.
  */
 public class DayGoRetrofit {
-    private static OkHttpClient client = new OkHttpClient();
 
+    private static OkHttpClient client = new OkHttpClient();
     private static Retrofit.Builder builder = new Retrofit.Builder()
+            .client(client)
             .baseUrl(DayGoKey.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
     public <S>S createService(Class<S> serviceClass){
-        Retrofit retrofit = builder.client(client).build();
+        Retrofit retrofit = builder.build();
         return retrofit.create(serviceClass);
     }
 }

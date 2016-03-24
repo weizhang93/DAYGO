@@ -15,10 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.kimo.daygo_2.activity.AboutActivity;
 import com.example.kimo.daygo_2.activity.VideoActivity;
 import com.example.kimo.daygo_2.activity.WebActivity;
 import com.example.kimo.daygo_2.adapter.MyPagerAdapter;
 import com.example.kimo.daygo_2.fragment.RecyclerFragmentFactory;
+import com.example.kimo.daygo_2.fragment.RecyclerFragmentFactory_new;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.ArrayList;
@@ -48,9 +50,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        fragments.add(RecyclerFragmentFactory.getInstance(titles[0]));
-        fragments.add(RecyclerFragmentFactory.getInstance(titles[1]));
-        fragments.add(RecyclerFragmentFactory.getInstance(titles[2]));
+//        fragments.add(RecyclerFragmentFactory.getInstance(titles[0]));
+//        fragments.add(RecyclerFragmentFactory.getInstance(titles[1]));
+//        fragments.add(RecyclerFragmentFactory.getInstance(titles[2]));
+        fragments.add(RecyclerFragmentFactory_new.getInstance(titles[0]));
+        fragments.add(RecyclerFragmentFactory_new.getInstance(titles[1]));
+        fragments.add(RecyclerFragmentFactory_new.getInstance(titles[2]));
     }
 
     private void initViewPager() {
@@ -93,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.about_daygo) {
+            startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
         if (id == R.id.about_me) {

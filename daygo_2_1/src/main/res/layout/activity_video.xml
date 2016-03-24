@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="#FF1C1C1D"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:background="#FF1C1C1D"
+              android:orientation="vertical">
     <com.example.kimo.daygo_2.widget.MovieRecorderView
         android:id="@+id/movieRecorderView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="3dp"
         android:layout_weight="1"
-        android:layout_margin="3dp">
+        app:cam_direction="front">
 
     </com.example.kimo.daygo_2.widget.MovieRecorderView>
-    <Button
-        android:id="@+id/shoot_button"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_movie_add_shoot"
-        android:text="按住拍"
-        android:textColor="#ECEBF1"/>
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/shoot_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_movie_add_shoot"
+            android:text="按住拍"
+            android:textColor="#ECEBF1"/>
+        <Button
+            android:id="@+id/change_camera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="后"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/shoot_button"
+            android:background="@drawable/bg_movie_add_shoot"/>
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text=""
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/shoot_button"
+            android:background="@drawable/bg_movie_add_shoot"/>
+    </RelativeLayout>
+
 </LinearLayout>

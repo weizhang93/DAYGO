@@ -5,7 +5,6 @@ package com.example.kimo.daygo_2.retrofit;
  */
 public class DayGoSingle {
     private static DayGoAPI dayGoAPI = null;
-
     public static DayGoAPI getInstance(){
         if(dayGoAPI == null){
             synchronized (DayGoSingle.class){
@@ -16,5 +15,4 @@ public class DayGoSingle {
         }
         return dayGoAPI;
     }
-
 }

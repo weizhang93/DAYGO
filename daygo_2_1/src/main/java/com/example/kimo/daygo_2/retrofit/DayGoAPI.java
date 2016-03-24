@@ -25,3 +25,5 @@ public interface DayGoAPI {
             @Path("day") int day
     );
 }
+
+

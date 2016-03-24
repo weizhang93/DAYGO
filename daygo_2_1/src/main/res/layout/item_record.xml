@@ -5,6 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_marginBottom="8dp"
+              android:layout_margin="5dp"
               android:background="@drawable/view_shadow"
               android:orientation="vertical">
 
@@ -47,7 +48,8 @@
             android:layout_toRightOf="@id/part_tv_type"
             android:padding="3dp"
             android:src="@drawable/ic_person_black_24dp"
-            tools:text="HugeTerry" />
+            tools:text="HugeTerry"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/part_tv_author"
@@ -56,7 +58,8 @@
             android:layout_toRightOf="@id/part_tv_author_img"
             android:gravity="center"
             android:textSize="@dimen/item_title_message"
-            tools:text="HugeTerry" />
+            tools:text="weiZhang"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/part_tv_time"
@@ -76,12 +79,13 @@
         android:layout_below="@id/part_tv_author"
         android:background="#20000000" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         android:id="@+id/part_iv"
+        android:minHeight="200dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:visibility="gone"
-        fresco:placeholderImage="@drawable/video_icon"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         tools:visibility="visible" />
 
     <LinearLayout
@@ -93,9 +97,6 @@
             android:id="@+id/part_video_iv"
             android:layout_width="100dp"
             android:layout_height="75dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/video_icon"
             android:visibility="gone" />
 
@@ -103,8 +104,7 @@
             android:id="@+id/part_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:paddingBottom="10dp"
+            android:padding="5dp"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/item_text_textsize"
             android:textStyle="normal"

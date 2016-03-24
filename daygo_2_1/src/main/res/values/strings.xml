@@ -16,4 +16,21 @@
     <string name="sure_to_save">是否保存？</string>
     <string name="sure">当然！</string>
     <string name="no">不需要</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="about">这是一个关于阅读和记录的App，与其用手机来刷微博新闻看小说，还不如拿来看点资料什么的，看完了还可以记录一下学了点什么。录短视频记也行，写字记也行，重要的是动起来。
+        \n\n感谢代码家提供的API，撮这个网站查看更多<a href='http://gank.io'>http://gank.io</a>\n\n相对于只有个录像功能1
+        .0版本，这个版本几乎完全是脱胎换骨。</string>
+    <string name="open_source">写这个app时用到了以下开源库：\n \'com.android.support:appcompat-v7:23.1.1\'\n
+        \'com.android.support:design:23.1.1\'\n \'com.android.support:cardview-v7:23.+\' \n 等待动画 \n
+        \'com.wang.avi:library:1.0.2\' \n \'com.nineoldandroids:library:2.4.0\' \n 刷新库 \n
+        \'com.github.orangegangsters:swipy:1.1.0@aar\' \n Retrofit \n
+        \'com.squareup.retrofit2:retrofit:2.0.0-beta4\' \n
+        \'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2\' \n \'io.reactivex:rxandroid:1.1.0\' \n
+        \'com.squareup.retrofit:converter-gson:2.0.0-beta2\' \n 图片加载库 \n
+        \'com.github.bumptech.glide:glide:3.7.0\' \n 数据库 \n
+        \'m.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}\' \n
+        \'com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}\' \n
+        \'com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}\'
+    </string>
+
 </resources>
